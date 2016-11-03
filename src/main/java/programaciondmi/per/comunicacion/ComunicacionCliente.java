@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import programaciondmi.per.modelo.*;
+import programaciondmi.per.modelo.exceptions.MalaNotaMusicalException;
 
 public class ComunicacionCliente extends Thread {
 	private Socket s;
@@ -49,8 +50,15 @@ public class ComunicacionCliente extends Thread {
 				Instrumento i = (Instrumento) mensaje;
 
 				// Crear notas musicales y enviarlas
-				NotaMusical n = new NotaMusical(i, 10, 4);
-				enviarObjeto(n);
+
+				try {
+					NotaMusical n = new NotaMusical(i, NotaMusical.DO, NotaMusical.BLANCA);
+					enviarObjeto(n);
+				} catch (MalaNotaMusicalException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 			
 		} catch (IOException e) {
